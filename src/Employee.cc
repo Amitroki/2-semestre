@@ -7,15 +7,13 @@
 using namespace std;
 using namespace workers;
 
-Employee Employee::create_full_time(string name, string surname, string fathername, int day, int month, int year, int salary) {
-	return Employee(Type::Part_time, name, surname, fathername, day, month, year, salary);
+EmployeePtr Employee::create_full_time(string name, string surname, string fathername, int day, int month, int year, int salary) {
+	return new Employee(Type::Part_time, name, surname, fathername, day, month, year, salary);
 }
 
-Employee Employee::create_part_time(string name, string surname, string fathername, int day, int month, int year, int based_salary, int percent, int number_of_hours) {
-	return Employee(Type::Full_time, name, surname, fathername, day, month, year, based_salary, percent, number_of_hours);
+EmployeePtr Employee::create_part_time(string name, string surname, string fathername, int day, int month, int year, int based_salary, int percent, int number_of_hours) {
+	return new Employee(Type::Full_time, name, surname, fathername, day, month, year, based_salary, percent, number_of_hours);
 }
-
-Employee::Employee() : _type(Type::Part_time), _name("A"), _surname("B"), _fathername("C"), _day(1), _month(1), _year(2023), _based_salary(1000), _percent(1), _number_of_hours(30) {}
 
 Employee::Employee(Type type, string name, string surname, string fathername, int day, int month, int year, int salary) : _type(Type::Full_time), _name(name), _surname(surname), _fathername(fathername), _day(day), _month(month), _year(year), _salary(salary) {}
 
@@ -50,7 +48,6 @@ int Employee::get_year() const {
 }
 
 void Employee::set_salary(int count) {
-
 	_salary = count;
 }
 

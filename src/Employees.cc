@@ -4,64 +4,93 @@
 using namespace workers;
 using namespace std;
 
-Employees::Employees() : _size(0) {}
+Employees::Employees() : _Worker(nullptr), _size(0) {}
 
-int Employees::get_size() const {
+Employees::Employees(const Employees& other) :
+	_Worker(new EmployeePtr[other._size]),
+	_size(other._size)
+{
+	for (int i = 0; i < _size; i++) {
+		_Worker[i] = new Employee(*other._Worker[i]);
+	}
+}
+int Employees::size() const {
 	return _size;
 }
-
-Employee Employees :: operator[](const int index) const {
+EmployeePtr Employees :: operator[](const int index) const {
 	if (index < 0 || _size <= index) {
 		throw out_of_range("[EmployeeList::operator[]] Index is out of range.");
 	}
 	return _Worker[index];
 }
-void Employees::add1(const Employee f) {
-	if (_size == CAPACITY) {
-		throw runtime_error("[EmployeeList::add1] Capacity is reached.");
+void Employees::add_worker(const EmployeePtr f) {
+	auto new_Employee = new EmployeePtr[_size + 1];
+	for (int i = 0; i < _size; i++) {
+		new_Employee[i] = _Worker[i];
 	}
-	_Worker[_size] = f;
+	delete[] _Worker;
+
+	new_Employee[_size] = f;
+
+	_Worker = new_Employee;
+
 	++_size;
-}
-void Employees::add2(const Employee f, int index) {
-	if (0 > index || index > CAPACITY) {
-		throw runtime_error("[EmployeeList::add1] Capacity is reached.");
-	}
-	_Worker[index] = f;
-}
-void Employees::remove(int index) {
-	_size = 0;
 }
 void Employees::delete_person(int index) {
 	if (index < 0 || _size <= index) {
 		throw out_of_range("[Employees::operator[]] Index is out of range.");
 	}
-	Employee people;
-	for (int i = index; i != CAPACITY - 1; i++) {
-		_Worker[i] = _Worker[i + 1];
+	auto new_Employee = new EmployeePtr[_size - 1];
+	for (int i = 0; i < index; i++) {
+		new_Employee[i] = _Worker[i];
 	}
+	for (int i = index; i <= _size - 2; i++) {
+		new_Employee[i] = _Worker[i + 1];
+	}
+	delete[] _Worker;
+	_Worker = new_Employee;
 	_size--;
 }
-void Employees::insert_person(Employee people, int index) {
+void Employees::insert_person(EmployeePtr people, int index) {
 	if (index < 0 || _size <= index) {
 		throw out_of_range("[Employees::operator[]] Index is out of range.");
 	}
-	else {
-		for (int i = _size - 1; i != index; i--) {
-			_Worker[i + 1] = _Worker[i];
-		}
+	auto new_Employee = new EmployeePtr[_size + 1];
+	for (int i = 0; i < index; i++) {
+		new_Employee[i] = _Worker[i];
 	}
-	_Worker[index] = people;
+	new_Employee[index] = people;
+	for (int i = (index + 1); i < (_size + 1); i++) {
+		new_Employee[i] = _Worker[i - 1];
+	}
+	delete[] _Worker;
+	_Worker = new_Employee;
 	_size++;
+}
+void Employees::change_data(const EmployeePtr f, int index) {
+	if (index < 0 || _size < index) {
+		throw out_of_range("[Employees::operator[]] Index is out of range.");
+	}
+	_Worker[index] = f;
+}
+void Employees::swap(Employees& other) {
+	std::swap(this->_Worker, other._Worker);
+	std::swap(this->_size, other._size);
+}
+Employees::~Employees() {
+	for (int i = 0; i < _size; ++i) {
+		delete _Worker[i];
+	}
+	delete[] _Worker;
 }
 int workers::search_max_salary(const Employees& _Worker) {
 	int max_index = -1;
 	float max_salary = 0;
 
-	auto n = _Worker.get_size();
+	auto n = _Worker.size();
 
 	for (int i = 0; i < n; i++) {
-		auto value = _Worker[i].calculating_salary();
+		auto value = _Worker[i]->calculating_salary();
 		if (value > max_salary || max_index == -1) {
 			max_index = i;
 			max_salary = value;

@@ -6,8 +6,10 @@ namespace workers {
 		Part_time,
 		Full_time
 	};
+
 	class Employee;
 	using EmployeePtr = Employee*;
+
 	class Employee {
 	private:
 		Type _type;
@@ -24,10 +26,9 @@ namespace workers {
 		Employee(Type type, std::string name, std::string surname, std::string fathername, int day, int month, int year, int salary);
 		Employee(Type type, std::string name, std::string surname, std::string fathername, int day, int month, int year, int based_salary, int percent, int number_of_hours);
 	public:
-		static Employee create_full_time(std::string name, std::string surname, std::string fathername, int day, int month, int year, int salary);
-		static Employee create_part_time(std::string name, std::string surname, std::string fathername, int day, int month, int year, int based_salary, int percent, int number_of_hours);
+		static EmployeePtr create_full_time(std::string name, std::string surname, std::string fathername, int day, int month, int year, int salary);
+		static EmployeePtr create_part_time(std::string name, std::string surname, std::string fathername, int day, int month, int year, int based_salary, int percent, int number_of_hours);
 
-		Employee();
 		Type get_type() const;
 		std::string get_name() const;
 		std::string get_surname() const;
@@ -45,21 +46,21 @@ namespace workers {
 
 		double calculating_salary();
 	};
-
 	class Employees {
-	public:
-		static const int CAPACITY = 10;
-		Employees();
-		int get_size() const;
-		Employee operator[](int index) const;
-		void add1(Employee f);
-		void add2(Employee f, int index);
-		void delete_person(int index);
-		void insert_person(Employee people, int index);
-		void remove(int index);
 	private:
-		Employee _Worker[CAPACITY];
+		EmployeePtr* _Worker;
 		int _size;
+	public:
+		Employees();
+		Employees(const Employees& other);
+		int size() const;
+		EmployeePtr operator[](int index) const;
+		void add_worker(EmployeePtr f);
+		void change_data(EmployeePtr f, int index);
+		void delete_person(int index);
+		void insert_person(EmployeePtr people, int index);
+		void swap(Employees& other);
+		~Employees();
 	};
 
 	int search_max_salary(const Employees& _Worker);
