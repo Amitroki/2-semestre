@@ -12,8 +12,8 @@ TEST(EmployeesTests, addPerson)
     _Worker.add_worker(worker2);
     EmployeePtr worker3 = Employee::create_part_time("Иван", "Иванов", "Иванович", 13, 12, 2003, 400, 5, 80);
     _Worker.add_worker(worker3);
-    const auto size = _Worker.size();
-    EXPECT_EQ(size, 3);
+    const auto get_size = _Worker.get_size();
+    EXPECT_EQ(get_size, 3);
 }
 TEST(EmployeesTests, deletePersonGood1)
 {
@@ -25,9 +25,9 @@ TEST(EmployeesTests, deletePersonGood1)
 
     _Worker.delete_person(0);
 
-    const auto size = _Worker.size();
+    const auto get_size = _Worker.get_size();
 
-    EXPECT_EQ(size, 1);
+    EXPECT_EQ(get_size, 1);
 }
 TEST(EmployeesTests, deletePersonGood2)
 {

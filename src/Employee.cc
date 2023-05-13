@@ -3,6 +3,7 @@
 #include <cassert>
 #include <stdexcept>
 #include <ctime>
+#include <iostream>
 
 using namespace std;
 using namespace workers;
@@ -51,12 +52,24 @@ void Employee::set_salary(int count) {
 	_salary = count;
 }
 
+int Employee::get_salary() const {
+	return _salary;
+}
+
 void Employee::set_based_salary(int count) {
 	_based_salary = count;
 }
 
+int Employee::get_based_salary() const {
+	return _based_salary;
+}
+
 void Employee::set_percent(int number) {
 	_percent = number;
+}
+
+int Employee::get_percent() const {
+	return _percent;
 }
 
 int Employee::get_number_of_hours() const {
@@ -96,4 +109,18 @@ double Employee::calculating_salary() {
 	default:
 		throw runtime_error("[Function::compute_derivative] Invalid function type.");
 	}
+}
+
+std::ostream& operator<< (std::ostream& out, const Employee& other) {
+	switch (other.get_type()) {
+	case::Type::Full_time:
+		out << "Employee(" << other.get_name() << other.get_surname() << other.get_fathername() << other.get_day() << other.get_month() << other.get_year() << other.get_salary();
+		break;
+	case::Type::Part_time:
+		out << "Employee(" << other.get_name() << other.get_surname() << other.get_fathername() << other.get_day() << other.get_month() << other.get_year() << other.get_based_salary() << other.get_percent() << other.get_number_of_hours();
+	default:
+		throw runtime_error("[Function::compute_derivative] Invalid function type.");
+	}
+
+	return out;
 }

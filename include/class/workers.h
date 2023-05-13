@@ -53,7 +53,7 @@ namespace workers {
 	public:
 		Employees();
 		Employees(const Employees& other);
-		int size() const;
+		int get_size() const;
 		EmployeePtr operator[](int index) const;
 		void add_worker(EmployeePtr f);
 		void change_data(EmployeePtr f, int index);

@@ -14,7 +14,7 @@ Employees::Employees(const Employees& other) :
 		_Worker[i] = new Employee(*other._Worker[i]);
 	}
 }
-int Employees::size() const {
+int Employees::get_size() const {
 	return _size;
 }
 EmployeePtr Employees :: operator[](const int index) const {
@@ -87,7 +87,7 @@ int workers::search_max_salary(const Employees& _Worker) {
 	int max_index = -1;
 	float max_salary = 0;
 
-	auto n = _Worker.size();
+	auto n = _Worker.get_size();
 
 	for (int i = 0; i < n; i++) {
 		auto value = _Worker[i]->calculating_salary();
