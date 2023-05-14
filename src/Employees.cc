@@ -1,4 +1,4 @@
-#include <class/Workers.h>
+#include <class/workers.h>
 #include <stdexcept>
 
 using namespace workers;
@@ -83,6 +83,7 @@ Employees::~Employees() {
 	}
 	delete[] _Worker;
 }
+
 int workers::search_max_salary(const Employees& _Worker) {
 	int max_index = -1;
 	float max_salary = 0;

@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <iostream>
 
 namespace workers {
 	enum class Type {
@@ -38,14 +39,20 @@ namespace workers {
 		int get_year() const;
 		int get_number_of_hours() const;
 		void set_salary(int count);
+		int get_salary() const;
 		void set_based_salary(int count);
+		int get_based_salary() const;
 		void set_percent(int number);
+		int get_percent() const;
 
 		double calculating_salary_for_full();
 		double calculating_salary_for_part();
 
 		double calculating_salary();
 	};
+
+	std::ostream& operator<< (std::ostream& out, const Employee& other);
+
 	class Employees {
 	private:
 		EmployeePtr* _Worker;
