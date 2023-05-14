@@ -28,24 +28,48 @@ std::string Employee::get_name() const {
 	return _name;
 }
 
+void Employee::set_name(std::string worker_name) {
+	_name = worker_name;
+}
+
 std::string Employee::get_surname() const {
 	return _surname;
+}
+
+void Employee::set_surname(std::string worker_surname) {
+	_surname = worker_surname;
 }
 
 std::string Employee::get_fathername() const {
 	return _fathername;
 }
 
+void Employee::set_fathername(std::string worker_fathername) {
+	_fathername = worker_fathername;
+}
+
 int Employee::get_day() const {
 	return _day;
+}
+
+void Employee::set_day(int day) {
+	_day = day;
 }
 
 int Employee::get_month() const {
 	return _month;
 }
 
+void Employee::set_month(int month) {
+	_month = month;
+}
+
 int Employee::get_year() const {
 	return _year;
+}
+
+void Employee::set_year(int year) {
+	_year = year;
 }
 
 void Employee::set_salary(int count) {
@@ -74,6 +98,10 @@ int Employee::get_percent() const {
 
 int Employee::get_number_of_hours() const {
 	return _number_of_hours;
+}
+
+void Employee::set_number_of_hours(int number_of_hours) {
+	_number_of_hours = number_of_hours;
 }
 
 double Employee::calculating_salary_for_full() {
@@ -109,18 +137,4 @@ double Employee::calculating_salary() {
 	default:
 		throw runtime_error("[Function::compute_derivative] Invalid function type.");
 	}
-}
-
-std::ostream& operator<< (std::ostream& out, const Employee& other) {
-	switch (other.get_type()) {
-	case::Type::Full_time:
-		out << "Employee(" << other.get_name() << other.get_surname() << other.get_fathername() << other.get_day() << other.get_month() << other.get_year() << other.get_salary();
-		break;
-	case::Type::Part_time:
-		out << "Employee(" << other.get_name() << other.get_surname() << other.get_fathername() << other.get_day() << other.get_month() << other.get_year() << other.get_based_salary() << other.get_percent() << other.get_number_of_hours();
-	default:
-		throw runtime_error("[Function::compute_derivative] Invalid function type.");
-	}
-
-	return out;
 }

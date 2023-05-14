@@ -99,3 +99,21 @@ int workers::search_max_salary(const Employees& _Worker) {
 	}
 	return max_index;
 }
+
+std::ostream& operator<< (std::ostream& out, const EmployeePtr& other) {
+	switch (other->get_type()) {
+	case::Type::Full_time: {
+		out << "Employee(" << other->get_name() << other->get_surname() << other->get_fathername() << other->get_day() << other->get_month() << other->get_year() << other->get_salary();
+		break;
+	}
+	case::Type::Part_time: {
+		out << "Employee(" << other->get_name() << other->get_surname() << other->get_fathername() << other->get_day() << other->get_month() << other->get_year() << other->get_based_salary() << other->get_percent() << other->get_number_of_hours();
+		break;
+	}
+	default: {
+		throw runtime_error("[Function::compute_derivative] Invalid function type.");
+	}
+	}
+
+	return out;
+}

@@ -32,26 +32,40 @@ namespace workers {
 
 		Type get_type() const;
 		std::string get_name() const;
+		void set_name(std::string worker_name);
+
 		std::string get_surname() const;
+		void set_surname(std::string worker_surname);
+
 		std::string get_fathername() const;
+		void set_fathername(std::string worker_fathername);
+
 		int get_day() const;
+		void set_day(int day);
+
 		int get_month() const;
+		void set_month(int month);
+
 		int get_year() const;
+		void set_year(int year);
+
 		int get_number_of_hours() const;
-		void set_salary(int count);
+		void set_number_of_hours(int number_pf_hours);
+		
 		int get_salary() const;
-		void set_based_salary(int count);
+		void set_salary(int count);
+
 		int get_based_salary() const;
-		void set_percent(int number);
+		void set_based_salary(int count);
+
 		int get_percent() const;
+		void set_percent(int number);
 
 		double calculating_salary_for_full();
 		double calculating_salary_for_part();
 
 		double calculating_salary();
 	};
-
-	std::ostream& operator<< (std::ostream& out, const Employee& other);
 
 	class Employees {
 	private:
@@ -69,6 +83,8 @@ namespace workers {
 		void swap(Employees& other);
 		~Employees();
 	};
+
+	std::ostream& operator<< (std::ostream& out, const EmployeePtr& other);
 
 	int search_max_salary(const Employees& _Worker);
 }
