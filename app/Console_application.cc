@@ -371,9 +371,19 @@ int main() {
 					int number;
 					cout << "Введите индекс: ";
 					cin >> number;
+					bool size = true;
+					while (size) {
+						if (number < 0 || number > _Worker.get_size()) {
+							cout << "Введите корректный индекс!" << endl;
+							cout << "Введите индекс: ";
+							cin >> number;
+						}
+						else
+							size = false;
+					}
 					while (checker2) {
 						checker2 = false;
-						cout << "Выберите тип вносимого в список работника: (1) Штатный работник; (2) Подрабатывающий работник";
+						cout << "Выберите тип вносимого в список работника: (1) Штатный работник; (2) Подрабатывающий работник" << endl;
 						cout << "Выберите тип работника: ";
 						int k;
 						cin >> k;
@@ -401,6 +411,8 @@ int main() {
 		} break;
 		case 2: {
 			bool checker1 = true;
+			if (_Worker.get_size() == 0)
+				bool checker1 = false;
 			while (checker1) {
 				checker1 = false;
 				cout << "(1) Удалить последний элемент / (2) Удалить элемент по индексу" << endl;
@@ -409,14 +421,38 @@ int main() {
 				cin >> a;
 				switch (a) {
 				case 1: {
-					int pos = _Worker.get_size() - 1;
-					_Worker.delete_person(pos);
+					if (_Worker.get_size() == 0) {
+						cout << "Невозможно удалить элемент в пустом массиве!" << endl;
+						checker1 = false;
+						break;
+					}
+					else {
+						int pos = _Worker.get_size() - 1;
+						_Worker.delete_person(pos);
+					}
 				}break;
 				case 2: {
-					cout << "Введите индекс: ";
-					int pos;
-					cin >> pos;
-					_Worker.delete_person(pos);
+					if (_Worker.get_size() == 0) {
+						cout << "Невозможно удалить элемент в пустом массиве!" << endl;
+						checker1 = false;
+						break;
+					}
+					else {
+						cout << "Введите индекс: ";
+						int pos;
+						cin >> pos;
+						bool size = true;
+						while (size) {
+							if (pos < 0 || pos > _Worker.get_size()) {
+								cout << "Введите корректный индекс!" << endl;
+								cout << "Введите индекс: ";
+								cin >> pos;
+							}
+							else
+								size = false;
+						}
+						_Worker.delete_person(pos);
+					}
 				}break;
 				default: {
 					cout << "Введите корректный номер операции!" << endl;

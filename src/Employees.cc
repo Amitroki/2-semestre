@@ -37,7 +37,7 @@ void Employees::add_worker(const EmployeePtr f) {
 	++_size;
 }
 void Employees::delete_person(int index) {
-	if (index < 0 || _size <= index) {
+	if (index < 0 || _size < index) {
 		throw out_of_range("[Employees::operator[]] Index is out of range.");
 	}
 	auto new_Employee = new EmployeePtr[_size - 1];
@@ -52,7 +52,7 @@ void Employees::delete_person(int index) {
 	_size--;
 }
 void Employees::insert_person(EmployeePtr people, int index) {
-	if (index < 0 || _size <= index) {
+	if (index < 0 || _size < index) {
 		throw out_of_range("[Employees::operator[]] Index is out of range.");
 	}
 	auto new_Employee = new EmployeePtr[_size + 1];
