@@ -1,12 +1,13 @@
+#include <class/workers.h>
 #include <iostream>
 #include <string>
-#include <class/workers.h>
 
 using namespace std;
 using namespace workers;
 
 int main() {
 	Employees();
+	setlocale(LC_ALL, "Russian");
 	cout << "Перед вами многоуровневое меню." << endl;
 	cout << "Возможные операции:" << endl;
 	cout << "Вставить элемент в список" << endl;
@@ -16,37 +17,40 @@ int main() {
 	int command;
 	cout << "Введите номер команды: ";
 	cin >> command;
-	switch(command)
+	switch (command) {
+	case 1: {
+		cout << "(1) Вставить элемент в конец / (2) вставить элемент по индексу" << endl;
+		int a;
+		cin >> a;
+		switch (a) {
 		case 1:
-			cout << "(1) Вставить элемент в конец / (2) вставить элемент по индексу" << endl;
-			int a;
-			cin >> a;
-			switch (a) {
-				case 1: 
+			return 1;
+			break;
+		case 2:
+			return 2;
+			break;
+		default:
+			cout << "Введите корректное число";
+			break;
+		}
+	}
+	case 2: {
+		cout << "(1) Удалить последний элемент / (2) Удалить элемент по индексу" << endl;
+		int a;
+		cin >> a;
+		switch (a) {
+		case 1:
 
-					break;
-				case 2:
+			break;
+		case 2:
 
-					break;
-				default:
-					cout << "Введите корректное число";
-					break;
-			}
-		case 2: 
-			cout << "(1) Удалить последний элемент / (2) Удалить элемент по индексу" << endl;
-			int a;
-			cin >> a;
-			switch (a) {
-			case 1:
+			break;
+		default:
+			cout << "Введите корректное число";
+			break;
+		}
+	}
 
-				break;
-			case 2:
-
-				break;
-			default:
-				cout << "Введите корректное число";
-				break;
-			}
-
+	}
 
 }

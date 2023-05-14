@@ -28,6 +28,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 # Объявляем тесты
-add_executable(Console_app "app/Console_application")
+add_executable(Console_application "app/Console_application")
+target_link_libraries(Console_application Employee)
 add_executable(Employee_tests "tests/Employee_tests.cc" "tests/Employees_tests.cc")
 target_link_libraries(Employee_tests Employee GTest::gtest_main)
