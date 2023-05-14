@@ -80,8 +80,10 @@ void Employees::swap(Employees& other) {
 Employees::~Employees() {
 	for (int i = 0; i < _size; ++i) {
 		delete _Worker[i];
+		cout << "РАБОТНИК ИЗ СПИСКА ПОД НОМЕРОМ " << i + 1 << " СТЁРТ" << endl;
 	}
 	delete[] _Worker;
+	cout << "СПИСОК УДАЛЕН";
 }
 
 int workers::search_max_salary(const Employees& _Worker) {
@@ -100,14 +102,14 @@ int workers::search_max_salary(const Employees& _Worker) {
 	return max_index;
 }
 
-std::ostream& operator<< (std::ostream& out, const EmployeePtr& other) {
+ostream& workers::operator<< (std::ostream& out, const EmployeePtr& other) {
 	switch (other->get_type()) {
 	case::Type::Full_time: {
-		out << "Employee(" << other->get_name() << other->get_surname() << other->get_fathername() << other->get_day() << other->get_month() << other->get_year() << other->get_salary();
+		out << "Имя: " << other->get_name() << "\n" << "Фамилия: " << other->get_surname() << "\n" << "Отчество: " << other->get_fathername() << "\n" << "День поступления на работу: " << other->get_day() << "\n" << "Месяц поступления на работу: " << other->get_month() << "\n" << "Год поступления на работу: " << other->get_year() << "\n" << "Заработная плата - " << other->get_salary() << endl << endl;
 		break;
 	}
 	case::Type::Part_time: {
-		out << "Employee(" << other->get_name() << other->get_surname() << other->get_fathername() << other->get_day() << other->get_month() << other->get_year() << other->get_based_salary() << other->get_percent() << other->get_number_of_hours();
+		out << "Имя: " << other->get_name() << "\n" << "Фамилия: " << other->get_surname() << "\n" << "Отчество: " << other->get_fathername() << "\n" << "День поступления на работу: " << other->get_day() << "\n" << "Месяц поступления на работу: " << other->get_month() << "\n" << "Год поступления на работу: " << other->get_year() << "\n" << "Базовая ставка за час работы: " << other->get_based_salary() << "\n" << "Процент надбавки: " << other->get_percent() << "\n" << "Количество отработанных часов за последний месяц: " << other->get_number_of_hours() << endl << endl;
 		break;
 	}
 	default: {
