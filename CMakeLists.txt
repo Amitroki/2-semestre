@@ -18,7 +18,7 @@ if(MSVC)
 endif()
 
 # Объявляем библиотеку
-add_library(Employee SHARED "include/class/workers.h" "src/Employee.cc" "src/Employees.cc" "app/Console_application.cc")
+add_library(Employee SHARED "include/class/workers.h" "src/Employee.cc" "src/Employees.cc")
 target_include_directories(Employee PUBLIC "include")
 
 # Подключаем googletest
@@ -28,7 +28,9 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 # Объявляем тесты
-add_executable(Console_application "app/Console_application")
-target_link_libraries(Console_application Employee)
 add_executable(Employee_tests "tests/Employee_tests.cc" "tests/Employees_tests.cc")
 target_link_libraries(Employee_tests Employee GTest::gtest_main)
+
+# Объявляем консоль
+add_executable(Console_application "app/Console_application")
+target_link_libraries(Console_application Employee)

@@ -76,6 +76,7 @@ namespace workers {
 		Employees(const Employees& other);
 		int get_size() const;
 		EmployeePtr operator[](int index) const;
+		Employees& operator=(const Employees& other);
 		void add_worker(EmployeePtr f);
 		void change_data(EmployeePtr f, int index);
 		void delete_person(int index);

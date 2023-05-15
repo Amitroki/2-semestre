@@ -471,7 +471,7 @@ int main() {
 		case 4: {
 			cout << "–аботником с наибольшей заработной платой €вл€етс€ " << search_max_salary(_Worker) + 1 << " в списке работник" << endl;
 			cout << _Worker[search_max_salary(_Worker)] << endl;
-			cout << "≈го заработна€ плата: " << _Worker[search_max_salary(_Worker)]->calculating_salary() << endl;
+			cout << "≈го текуща€ заработна€ плата: " << _Worker[search_max_salary(_Worker)]->calculating_salary() << endl << endl ;
 		} break;
 		case 5: {
 			flag = false;

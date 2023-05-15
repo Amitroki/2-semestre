@@ -23,6 +23,11 @@ EmployeePtr Employees :: operator[](const int index) const {
 	}
 	return _Worker[index];
 }
+Employees& Employees::operator=(const Employees& other) {
+	Employees copy(other);
+	copy.swap(*this);
+	return *this;
+}
 void Employees::add_worker(const EmployeePtr f) {
 	auto new_Employee = new EmployeePtr[_size + 1];
 	for (int i = 0; i < _size; i++) {
