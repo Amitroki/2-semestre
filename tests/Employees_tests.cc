@@ -7,12 +7,12 @@ using namespace workers;
 TEST(EmployeesTests, addPerson)
 {
     Employees _Worker;
-    Employee person();
-    _Worker.add_worker(person().create_part_time("Иван", "Иванов", "Иванович", 13, 12, 2003, 400, 5, 80));
+    EmployeePtr person;
+    _Worker.add_worker(person->create_part_time("Иван", "Иванов", "Иванович", 13, 12, 2003, 400, 5, 80));
     const auto getting_size = _Worker.get_size();
     EXPECT_EQ(getting_size, 1);
 }
-/*TEST(EmployeesTests, deletePersonGood1)
+TEST(EmployeesTests, deletePersonGood1)
 {
     Employees _Worker;
     EmployeePtr worker1 = Employee::create_part_time("Иван", "Иванов", "Иванович", 13, 12, 2003, 400, 5, 80);
@@ -92,4 +92,4 @@ TEST(EmployeesTests, CapacityAddWorkerRange2) {
     Employees _Worker;
     EmployeePtr worker1 = Employee::create_full_time("Иван", "Иванов", "Иванович", 13, 12, 2003, 54000);
     EXPECT_ANY_THROW(_Worker.change_data(worker1, 5), std::out_of_range);
-}*/
+}
