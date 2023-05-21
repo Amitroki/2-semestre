@@ -27,11 +27,10 @@ FetchContent_Declare(googletest URL https://github.com/google/googletest/archive
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-# Объявляем тесты
-add_executable(Employee_tests "tests/Employee_tests.cc" "tests/Employees_tests.cc")
-target_link_libraries(Employee_tests Employee GTest::gtest_main)
-
-
 # Объявляем консоль
 add_executable(app "app/Console_application.cc")
 target_link_libraries(app Employee)
+
+# Объявляем тесты
+add_executable(Employee_tests "tests/Employee_tests.cc" "tests/Employees_tests.cc")
+target_link_libraries(Employee_tests Employee GTest::gtest_main)

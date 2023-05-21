@@ -6,7 +6,7 @@
 using namespace std;
 using namespace workers;
 
-void adding_on_last_pos_full_time_worker(Employees& _Worker) {
+void adding_on_index_pos_full_time_worker(Employees& _worker, int index) {
 	std::string word1;
 	std::string word2;
 	std::string word3;
@@ -66,165 +66,11 @@ void adding_on_last_pos_full_time_worker(Employees& _Worker) {
 		else
 			checker1 = false;
 	}
-	EmployeePtr full_time_worker = Employee::create_full_time(word1, word2, word3, a, b, c, d);
-	_Worker.add_worker(full_time_worker);
+	cout << endl << endl;
+	_worker.add_worker(make_shared<FullEmployee>(word1, word2, word3, a, b, c, d));
 }
 
-void adding_on_last_pos_part_time_worker(Employees& _Worker) {
-	std::string word1;
-	std::string word2;
-	std::string word3;
-	int a;
-	int b;
-	int c;
-	int d;
-	int e;
-	int f;
-	cout << "Введите имя работника: ";
-	cin >> word1;
-	cout << "Введите фамилию работника: ";
-	cin >> word2;
-	cout << "Введите отчество работника: ";
-	cin >> word3;
-	cout << "Введите день, месяц и год поступления сотрудника на работу: " << endl;
-	cin >> a;
-	bool checker1 = true;
-	while (checker1) {
-		if (1 > a || a > 31) {
-			cout << "Некорректная дата, введите другую" << endl;
-			cout << "Введите день: ";
-			cin >> a;
-		}
-		else
-			checker1 = false;
-	}
-	cin >> b;
-	checker1 = true;
-	while (checker1) {
-		if (1 > b || b > 12) {
-			cout << "Некорректная дата, введите другую" << endl;
-			cout << "Введите месяц: ";
-			cin >> b;
-		}
-		else
-			checker1 = false;
-	}
-	cin >> c;
-	checker1 = true;
-	while (checker1) {
-		if (0 > c || c > 2023) {
-			cout << "Некорректная дата, введите другую" << endl;
-			cout << "Введите год: ";
-			cin >> c;
-		}
-		else
-			checker1 = false;
-	}
-	cout << "Введите базовую ставку сотрудника за час работы: ";
-	cin >> d;
-	checker1 = true;
-	while (checker1) {
-		if (1 > d) {
-			cout << "Некорректное выражение, введите другое" << endl;
-			cout << "Введите заработную плату сотрудника за час: ";
-			cin >> d;
-		}
-		else
-			checker1 = false;
-	}
-	cout << "Введите процент надбавки (от 1% до 5%) для данного сотрудника: ";
-	cin >> e;
-	checker1 = true;
-	while (checker1) {
-		if (1 > e || e > 5) {
-			cout << "Некорректное выражение, введите другое" << endl;
-			cout << "Введите процент надбавки: ";
-			cin >> e;
-		}
-		else
-			checker1 = false;
-	}
-	cout << "Введите количество отработанных сотрудником часов за последний месяц: ";
-	cin >> f;
-	checker1 = true;
-	while (checker1) {
-		if (0 > f || f > 744) {
-			cout << "Некорректное выражение, введите другое" << endl;
-			cout << "Введите количество отработанных часов: ";
-			cin >> f;
-		}
-		else
-			checker1 = false;
-	}
-	EmployeePtr part_time_worker = Employee::create_part_time(word1, word2, word3, a, b, c, d, e, f);
-	_Worker.add_worker(part_time_worker);
-}
-
-void adding_on_index_pos_full_time_worker(Employees& _Worker, int index) {
-	std::string word1;
-	std::string word2;
-	std::string word3;
-	int a;
-	int b;
-	int c;
-	int d;
-	cout << "Введите имя работника: ";
-	cin >> word1;
-	cout << "Введите фамилию работника: ";
-	cin >> word2;
-	cout << "Введите отчество работника: ";
-	cin >> word3;
-	cout << "Введите день, месяц и год поступления сотрудника на работу: " << endl;
-	cin >> a;
-	bool checker1 = true;
-	while (checker1) {
-		if (1 > a || a > 31) {
-			cout << "Некорректная дата, введите другую" << endl;
-			cout << "Введите день: ";
-			cin >> a;
-		}
-		else
-			checker1 = false;
-	}
-	cin >> b;
-	checker1 = true;
-	while (checker1) {
-		if (1 > b || b > 12) {
-			cout << "Некорректная дата, введите другую" << endl;
-			cout << "Введите месяц: ";
-			cin >> b;
-		}
-		else
-			checker1 = false;
-	}
-	cin >> c;
-	checker1 = true;
-	while (checker1) {
-		if (0 > c || c > 2023) {
-			cout << "Некорректная дата, введите другую" << endl;
-			cout << "Введите год: ";
-			cin >> c;
-		}
-		else
-			checker1 = false;
-	}
-	cout << "Введите заработную плату сотрудника: ";
-	cin >> d;
-	checker1 = true;
-	while (checker1) {
-		if (1 > d) {
-			cout << "Некорректное число, введите другое" << endl;
-			cout << "Введите заработную плату сотрудника: ";
-			cin >> d;
-		}
-		else
-			checker1 = false;
-	}
-	EmployeePtr full_time_worker = Employee::create_full_time(word1, word2, word3, a, b, c, d);
-	_Worker.insert_person(full_time_worker, index);
-}
-
-void adding_on_index_pos_part_time_worker(Employees& _Worker, int index) {
+void adding_on_index_pos_part_time_worker(Employees& _worker, int index) {
 	std::string word1;
 	std::string word2;
 	std::string word3;
@@ -310,14 +156,14 @@ void adding_on_index_pos_part_time_worker(Employees& _Worker, int index) {
 		else
 			checker1 = false;
 	}
-	EmployeePtr part_time_worker = Employee::create_part_time(word1, word2, word3, a, b, c, d, e, f);
-	_Worker.insert_person(part_time_worker, index);
+	cout << endl << endl;
+	_worker.add_worker(make_shared<PartEmployee>(word1, word2, word3, a, b, c, d, e, f));
 }
 
 int main() {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
-	Employees _Worker;
+	Employees _worker;
 	bool flag = true;
 	cout << "Перед вами многоуровневое меню." << endl;
 	while (flag) {
@@ -340,7 +186,7 @@ int main() {
 				cout << "Выберите действие: ";
 				int q;
 				cin >> q;
-				cout << endl;
+				cout << endl << endl;
 				switch (q) {
 				case 1: {
 					bool checker2 = true;
@@ -350,16 +196,16 @@ int main() {
 						cout << "Выберите тип работника: ";
 						int k;
 						cin >> k;
-						cout << endl;
+						cout << endl << endl;
 						switch (k) {
 						case 1: {
-							adding_on_last_pos_full_time_worker(_Worker);
+							adding_on_index_pos_full_time_worker(_worker, _worker.size());
 						} break;
 						case 2: {
-							adding_on_last_pos_part_time_worker(_Worker);
+							adding_on_index_pos_part_time_worker(_worker, _worker.size());
 						} break;
 						default: {
-							cout << "Введите корректный номер типа работающего!" << endl;
+							cout << "Введите корректный номер типа работающего!" << endl << endl;
 							checker2 = true;
 						}
 
@@ -373,8 +219,8 @@ int main() {
 					cin >> number;
 					bool size = true;
 					while (size) {
-						if (number < 0 || number > _Worker.get_size()) {
-							cout << "Введите корректный индекс!" << endl;
+						if (number < 0 || number > _worker.size()) {
+							cout << "Введите корректный индекс!" << endl << endl;
 							cout << "Введите индекс: ";
 							cin >> number;
 						}
@@ -387,23 +233,23 @@ int main() {
 						cout << "Выберите тип работника: ";
 						int k;
 						cin >> k;
-						cout << endl;
+						cout << endl << endl;
 						switch (k) {
 						case 1: {
-							adding_on_index_pos_full_time_worker(_Worker, number);
+							adding_on_index_pos_full_time_worker(_worker, number);
 						}break;
 						case 2: {
-							adding_on_index_pos_part_time_worker(_Worker, number);
+							adding_on_index_pos_part_time_worker(_worker, number);
 						}break;
 						default: {
-							cout << "Введите корректный номер типа работающего!" << endl;
+							cout << "Введите корректный номер типа работающего!" << endl << endl;
 							checker2 = true;
 						}break;
 						}
 					}
 				}break;
 				default: {
-					cout << "Введите корректное число" << endl;
+					cout << "Введите корректное число" << endl << endl;
 					checker1 = true;
 				} break;
 				}
@@ -411,7 +257,7 @@ int main() {
 		} break;
 		case 2: {
 			bool checker1 = true;
-			if (_Worker.get_size() == 0)
+			if (_worker.size() == 0)
 				bool checker1 = false;
 			while (checker1) {
 				checker1 = false;
@@ -421,19 +267,19 @@ int main() {
 				cin >> a;
 				switch (a) {
 				case 1: {
-					if (_Worker.get_size() == 0) {
-						cout << "Невозможно удалить элемент в пустом массиве!" << endl;
+					if (_worker.size() == 0) {
+						cout << "Невозможно удалить элемент в пустом массиве!" << endl << endl;
 						checker1 = false;
 						break;
 					}
 					else {
-						int pos = _Worker.get_size() - 1;
-						_Worker.delete_person(pos);
+						int pos = _worker.size() - 1;
+						_worker.delete_person(pos);
 					}
 				}break;
 				case 2: {
-					if (_Worker.get_size() == 0) {
-						cout << "Невозможно удалить элемент в пустом массиве!" << endl;
+					if (_worker.size() == 0) {
+						cout << "Невозможно удалить элемент в пустом массиве!" << endl << endl;
 						checker1 = false;
 						break;
 					}
@@ -443,19 +289,20 @@ int main() {
 						cin >> pos;
 						bool size = true;
 						while (size) {
-							if (pos < 0 || pos > _Worker.get_size()) {
+							if (pos < 0 || pos > _worker.size()) {
 								cout << "Введите корректный индекс!" << endl;
 								cout << "Введите индекс: ";
 								cin >> pos;
+								cout << endl << endl;
 							}
 							else
 								size = false;
 						}
-						_Worker.delete_person(pos);
+						_worker.delete_person(pos);
 					}
 				}break;
 				default: {
-					cout << "Введите корректный номер операции!" << endl;
+					cout << "Введите корректный номер операции!" << endl << endl;
 					checker1 = true;
 				}break;
 				}
@@ -463,15 +310,22 @@ int main() {
 		} break;
 		case 3: {
 			cout << "Все рабочие:" << endl;
-			for (int i = 0; i < _Worker.get_size(); i++) {
+			for (int i = 0; i < _worker.size(); i++) {
 				cout << "(" << i + 1 << ")" << endl;
-				cout << _Worker[i] << endl;
+				_worker[i]->print();
+				cout << endl;
 			}
 		} break;
 		case 4: {
-			cout << "Работником с наибольшей заработной платой является " << search_max_salary(_Worker) + 1 << " в списке работник" << endl;
-			cout << _Worker[search_max_salary(_Worker)] << endl;
-			cout << "Его текущая заработная плата: " << _Worker[search_max_salary(_Worker)]->calculating_salary() << endl << endl ;
+			int checker = _worker.size();
+			if (checker > 0) {
+				cout << "Работником с наибольшей заработной платой является " << search_max_salary(_worker) + 1 << " в списке работник" << endl;
+				_worker[search_max_salary(_worker)]->print();
+				cout << "Его текущая заработная плата: " << _worker[search_max_salary(_worker)]->calculating_salary() << endl << endl;
+			}
+			else {
+				cout << "Список пуст, зарплат нет" << endl << endl;
+			}
 		} break;
 		case 5: {
 			flag = false;

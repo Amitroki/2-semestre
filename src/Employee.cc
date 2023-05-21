@@ -8,21 +8,14 @@
 using namespace std;
 using namespace workers;
 
-EmployeePtr Employee::create_full_time(string name, string surname, string fathername, int day, int month, int year, int salary) {
-	return new Employee(Type::Part_time, name, surname, fathername, day, month, year, salary);
-}
-
-EmployeePtr Employee::create_part_time(string name, string surname, string fathername, int day, int month, int year, int based_salary, int percent, int number_of_hours) {
-	return new Employee(Type::Full_time, name, surname, fathername, day, month, year, based_salary, percent, number_of_hours);
-}
-
-Employee::Employee(Type type, string name, string surname, string fathername, int day, int month, int year, int salary) : _type(Type::Full_time), _name(name), _surname(surname), _fathername(fathername), _day(day), _month(month), _year(year), _salary(salary) {}
-
-Employee::Employee(Type type, string name, string surname, string fathername, int day, int month, int year, int based_salary, int percent, int number_of_hours) : _type(Type::Part_time), _name(name), _surname(surname), _fathername(fathername), _day(day), _month(month), _year(year), _based_salary(based_salary), _percent(percent), _number_of_hours(number_of_hours) {}
-
-Type Employee::get_type() const {
-	return _type;
-}
+Employee::Employee(std::string name, std::string surname, std::string fathername, int day, int month, int year) :
+	_name(name), 
+	_surname(surname),
+	_fathername(fathername),
+	_day(day),
+	_month(month),
+	_year(year)
+{}
 
 std::string Employee::get_name() const {
 	return _name;
@@ -72,39 +65,87 @@ void Employee::set_year(int year) {
 	_year = year;
 }
 
-void Employee::set_salary(int count) {
+//ДЛЯ ПОСТОЯННОГО РАБОЧЕГО
+
+FullEmployee::FullEmployee(std::string name, std::string surname, std::string fathername, int day, int month, int year, int salary) :
+	Employee(name, surname, fathername, day, month, year),
+	_salary(salary) {}
+
+void FullEmployee::set_salary(int count) {
 	_salary = count;
 }
 
-int Employee::get_salary() const {
+int FullEmployee::get_salary() const {
 	return _salary;
 }
 
-void Employee::set_based_salary(int count) {
+EmployeePtr FullEmployee::clone() const {
+	return make_shared<FullEmployee>(_name, _surname, _fathername, _day, _month, _year, _salary);
+}
+
+std::ostream& FullEmployee::print(std::ostream& out) const {
+	out << "Имя: " << get_name() << "\n"
+		<< "Фамилия: " << get_surname() << "\n"
+		<< "Отчество: " << get_fathername() << "\n"
+		<< "День поступления на работу: " << get_day() << "\n"
+		<< "Месяц поступления на работу: " << get_month() << "\n"
+		<< "Год поступления на работу: " << get_year() << "\n"
+		<< "Заработная плата - " << get_salary() << endl << endl;
+	return out;
+}
+
+
+//ДЛЯ ВРЕМЕННОГО РАБОЧЕГО
+
+
+PartEmployee::PartEmployee(std::string name, std::string surname, std::string fathername, int day, int month, int year, int based_salary, int percent, int number_of_hours) :
+	Employee(name, surname, fathername, day, month, year),
+	_based_salary(based_salary),
+	_percent(percent),
+	_number_of_hours(number_of_hours) {}
+
+void PartEmployee::set_based_salary(int count) {
 	_based_salary = count;
 }
 
-int Employee::get_based_salary() const {
+int PartEmployee::get_based_salary() const {
 	return _based_salary;
 }
 
-void Employee::set_percent(int number) {
+void PartEmployee::set_percent(int number) {
 	_percent = number;
 }
 
-int Employee::get_percent() const {
+int PartEmployee::get_percent() const {
 	return _percent;
 }
 
-int Employee::get_number_of_hours() const {
+int PartEmployee::get_number_of_hours() const {
 	return _number_of_hours;
 }
 
-void Employee::set_number_of_hours(int number_of_hours) {
+void PartEmployee::set_number_of_hours(int number_of_hours) {
 	_number_of_hours = number_of_hours;
 }
 
-double Employee::calculating_salary_for_full() {
+EmployeePtr PartEmployee::clone() const {
+	return make_shared<PartEmployee>(_name, _surname, _fathername, _day, _month, _year, _based_salary, _percent, _number_of_hours);
+}
+
+std::ostream& PartEmployee::print(std::ostream& out) const {
+	out << "Имя: " << get_name() << "\n"
+		<< "Фамилия: " << get_surname() << "\n"
+		<< "Отчество: " << get_fathername() << "\n"
+		<< "День поступления на работу: " << get_day() << "\n"
+		<< "Месяц поступления на работу: " << get_month() << "\n"
+		<< "Год поступления на работу: " << get_year() << "\n"
+		<< "Базовая ставка за час работы: " << get_based_salary() << "\n"
+		<< "Процент надбавки: " << get_percent() << "\n"
+		<< "Количество отработанных часов за последний месяц: " << get_number_of_hours() << endl << endl;
+	return out;
+}
+
+double FullEmployee::calculating_salary() const{
 	time_t t;
 	time(&t);
 	int a1 = (14 - _month) / 12;
@@ -123,18 +164,7 @@ double Employee::calculating_salary_for_full() {
 	return cal_salary;
 }
 
-double Employee::calculating_salary_for_part() {
+double PartEmployee::calculating_salary() const{
 	double cal_salary = _based_salary * _number_of_hours * (1 + _percent * 1.0 / 100);
 	return cal_salary;
-}
-
-double Employee::calculating_salary() {
-	switch (_type) {
-	case::Type::Full_time:
-		return calculating_salary_for_full();
-	case::Type::Part_time:
-		return calculating_salary_for_part();
-	default:
-		throw runtime_error("[Function::compute_derivative] Invalid function type.");
-	}
 }

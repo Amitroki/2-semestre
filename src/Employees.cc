@@ -4,123 +4,60 @@
 using namespace workers;
 using namespace std;
 
-Employees::Employees() : _Worker(nullptr), _size(0) {}
-
-Employees::Employees(const Employees& other) :
-	_Worker(new EmployeePtr[other._size]),
-	_size(other._size)
-{
-	for (int i = 0; i < _size; i++) {
-		_Worker[i] = new Employee(*other._Worker[i]);
+Employees::Employees(const Employees& other) {
+	const auto n = other.size();
+	_worker.reserve(n);
+	for (int i = 0; i < n; ++i) {
+		_worker.push_back(other[i]->clone());
 	}
 }
-int Employees::get_size() const {
-	return _size;
+
+int Employees::size() const {
+	return static_cast<int>(_worker.size());
 }
+
 EmployeePtr Employees :: operator[](const int index) const {
-	if (index < 0 || _size <= index) {
+	if (index < 0)
+	{
 		throw out_of_range("[EmployeeList::operator[]] Index is out of range.");
 	}
-	return _Worker[index];
+	return _worker.at(index);
 }
+
 Employees& Employees::operator=(const Employees& other) {
 	Employees copy(other);
 	copy.swap(*this);
 	return *this;
 }
+
 void Employees::add_worker(const EmployeePtr f) {
-	auto new_Employee = new EmployeePtr[_size + 1];
-	for (int i = 0; i < _size; i++) {
-		new_Employee[i] = _Worker[i];
-	}
-	delete[] _Worker;
-
-	new_Employee[_size] = f;
-
-	_Worker = new_Employee;
-
-	++_size;
+	_worker.push_back(f);
 }
+
 void Employees::delete_person(int index) {
-	if (index < 0 || _size < index) {
-		throw out_of_range("[Employees::operator[]] Index is out of range.");
-	}
-	auto new_Employee = new EmployeePtr[_size - 1];
-	for (int i = 0; i < index; i++) {
-		new_Employee[i] = _Worker[i];
-	}
-	for (int i = index; i <= _size - 2; i++) {
-		new_Employee[i] = _Worker[i + 1];
-	}
-	delete[] _Worker;
-	_Worker = new_Employee;
-	_size--;
-}
-void Employees::insert_person(EmployeePtr people, int index) {
-	if (index < 0 || _size < index) {
-		throw out_of_range("[Employees::operator[]] Index is out of range.");
-	}
-	auto new_Employee = new EmployeePtr[_size + 1];
-	for (int i = 0; i < index; i++) {
-		new_Employee[i] = _Worker[i];
-	}
-	new_Employee[index] = people;
-	for (int i = (index + 1); i < (_size + 1); i++) {
-		new_Employee[i] = _Worker[i - 1];
-	}
-	delete[] _Worker;
-	_Worker = new_Employee;
-	_size++;
-}
-void Employees::change_data(const EmployeePtr f, int index) {
-	if (index < 0 || _size < index) {
-		throw out_of_range("[Employees::operator[]] Index is out of range.");
-	}
-	_Worker[index] = f;
-}
-void Employees::swap(Employees& other) {
-	std::swap(this->_Worker, other._Worker);
-	std::swap(this->_size, other._size);
-}
-Employees::~Employees() {
-	for (int i = 0; i < _size; ++i) {
-		delete _Worker[i];
-		cout << "РАБОТНИК ИЗ СПИСКА ПОД НОМЕРОМ " << i + 1 << " СТЁРТ" << endl;
-	}
-	delete[] _Worker;
-	cout << "СПИСОК УДАЛЕН";
+	_worker.erase(_worker.begin() + index);
 }
 
-int workers::search_max_salary(const Employees& _Worker) {
-	int max_index = -1;
+void Employees::insert_person(EmployeePtr people, int index) {
+	_worker.insert(_worker.begin() + index, people);
+}
+
+void Employees::swap(Employees& other) {
+	std::swap(this->_worker, other._worker);
+}
+
+int workers::search_max_salary(const Employees& _worker) {
+	int max_index = 0;
 	float max_salary = 0;
 
-	auto n = _Worker.get_size();
+	auto n = _worker.size();
 
 	for (int i = 0; i < n; i++) {
-		auto value = _Worker[i]->calculating_salary();
+		auto value = _worker[i]->calculating_salary();
 		if (value > max_salary || max_index == -1) {
 			max_index = i;
 			max_salary = value;
 		}
 	}
 	return max_index;
-}
-
-ostream& workers::operator<< (std::ostream& out, const EmployeePtr& other) {
-	switch (other->get_type()) {
-	case::Type::Full_time: {
-		out << "Имя: " << other->get_name() << "\n" << "Фамилия: " << other->get_surname() << "\n" << "Отчество: " << other->get_fathername() << "\n" << "День поступления на работу: " << other->get_day() << "\n" << "Месяц поступления на работу: " << other->get_month() << "\n" << "Год поступления на работу: " << other->get_year() << "\n" << "Заработная плата - " << other->get_salary() << endl << endl;
-		break;
-	}
-	case::Type::Part_time: {
-		out << "Имя: " << other->get_name() << "\n" << "Фамилия: " << other->get_surname() << "\n" << "Отчество: " << other->get_fathername() << "\n" << "День поступления на работу: " << other->get_day() << "\n" << "Месяц поступления на работу: " << other->get_month() << "\n" << "Год поступления на работу: " << other->get_year() << "\n" << "Базовая ставка за час работы: " << other->get_based_salary() << "\n" << "Процент надбавки: " << other->get_percent() << "\n" << "Количество отработанных часов за последний месяц: " << other->get_number_of_hours() << endl << endl;
-		break;
-	}
-	default: {
-		throw runtime_error("[Function::compute_derivative] Invalid function type.");
-	}
-	}
-
-	return out;
 }

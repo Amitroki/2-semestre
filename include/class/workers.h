@@ -1,36 +1,23 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <memory>
+#include <vector>
 
 namespace workers {
-	enum class Type {
-		Part_time,
-		Full_time
-	};
 
 	class Employee;
-	using EmployeePtr = Employee*;
+	using EmployeePtr = std::shared_ptr<Employee>;
 
 	class Employee {
-	private:
-		Type _type;
-		std::string _name;
-		std::string _surname;
-		std::string _fathername;
-		int _day;
-		int _month;
-		int _year;
-		int _salary;
-		int _based_salary;
-		int _percent;
-		int _number_of_hours;
-		Employee(Type type, std::string name, std::string surname, std::string fathername, int day, int month, int year, int salary);
-		Employee(Type type, std::string name, std::string surname, std::string fathername, int day, int month, int year, int based_salary, int percent, int number_of_hours);
 	public:
-		static EmployeePtr create_full_time(std::string name, std::string surname, std::string fathername, int day, int month, int year, int salary);
-		static EmployeePtr create_part_time(std::string name, std::string surname, std::string fathername, int day, int month, int year, int based_salary, int percent, int number_of_hours);
 
-		Type get_type() const;
+		Employee(std::string name, std::string surname, std::string fathername, int day, int month, int year);
+
+		virtual double calculating_salary() const = 0;
+
+		virtual EmployeePtr clone() const = 0;
+
 		std::string get_name() const;
 		void set_name(std::string worker_name);
 
@@ -49,11 +36,53 @@ namespace workers {
 		int get_year() const;
 		void set_year(int year);
 
-		int get_number_of_hours() const;
-		void set_number_of_hours(int number_pf_hours);
-		
+		virtual ~Employee() = default;
+
+		virtual std::ostream& print(std::ostream & = std::cout) const = 0;
+
+	protected:
+
+		std::string _name;
+		std::string _surname;
+		std::string _fathername;
+		int _day;
+		int _month;
+		int _year;
+
+		Employee() = default;
+		Employee(const Employee&) = default;
+		Employee& operator=(const Employee&) = default;
+	};
+
+	class FullEmployee : public Employee {
+	private:
+		int _salary;
+
+	public:
+
+		FullEmployee(std::string name, std::string surname, std::string fathername, int day, int month, int year, int salary);
+
 		int get_salary() const;
 		void set_salary(int count);
+
+		double calculating_salary() const override;
+
+		EmployeePtr clone() const override;
+
+		std::ostream& print(std::ostream& os) const override;
+
+	};
+
+	class PartEmployee : public Employee {
+	private:
+
+		int _based_salary;
+		int _percent;
+		int _number_of_hours;
+
+	public:
+
+		PartEmployee(std::string name, std::string surname, std::string fathername, int day, int month, int year, int based_salary, int percent, int number_of_hours);
 
 		int get_based_salary() const;
 		void set_based_salary(int count);
@@ -61,31 +90,34 @@ namespace workers {
 		int get_percent() const;
 		void set_percent(int number);
 
-		double calculating_salary_for_full();
-		double calculating_salary_for_part();
+		int get_number_of_hours() const;
+		void set_number_of_hours(int number_of_hours);
 
-		double calculating_salary();
+		double calculating_salary() const override;
+
+		EmployeePtr clone() const override;
+
+		std::ostream& print(std::ostream& os) const override;
+
 	};
 
 	class Employees {
 	private:
-		EmployeePtr* _Worker;
-		int _size;
+
+		std::vector<EmployeePtr> _worker;
+
 	public:
-		Employees();
+
+		Employees() = default;
 		Employees(const Employees& other);
-		int get_size() const;
+		int size() const;
 		EmployeePtr operator[](int index) const;
 		Employees& operator=(const Employees& other);
 		void add_worker(EmployeePtr f);
-		void change_data(EmployeePtr f, int index);
 		void delete_person(int index);
 		void insert_person(EmployeePtr people, int index);
 		void swap(Employees& other);
-		~Employees();
 	};
 
-	std::ostream& operator<< (std::ostream& out, const EmployeePtr& other);
-
-	int search_max_salary(const Employees& _Worker);
+	int search_max_salary(const Employees& _worker);
 }
