@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-
 #include <class/Workers.h>
 
 using namespace workers;
@@ -34,14 +33,15 @@ TEST(EmployeesTests, deletePersonGood2)
 
     EXPECT_ANY_THROW(_Worker.delete_person(-1), std::out_of_range);
 }
-TEST(EmployeesTests, deletePersonаFailed)
+/*TEST(EmployeesTests, deletePersonаFailed)
 {
     Employees _Worker;
     EmployeePtr worker1 = Employee::create_part_time("Иван", "Иванов", "Иванович", 13, 12, 2003, 400, 5, 80);
     _Worker.add_worker(worker1);
 
     EXPECT_NO_THROW(_Worker.delete_person(-1), std::out_of_range);
-}
+}*/
+// Эта проверка выдает FALSE умышленно, проверка на выбрасывание исключения
 TEST(EmployeesTests, insertPerson)
 {
     Employees _Worker;
@@ -52,7 +52,6 @@ TEST(EmployeesTests, insertPerson)
     Type a = _Worker[0]->get_type();
     EXPECT_EQ(a, Type::Part_time);
 }
-
 TEST(EmployeesTests, search_max_salary1)
 {
     Employees _Worker;

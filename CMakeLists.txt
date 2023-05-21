@@ -31,6 +31,7 @@ FetchContent_MakeAvailable(googletest)
 add_executable(Employee_tests "tests/Employee_tests.cc" "tests/Employees_tests.cc")
 target_link_libraries(Employee_tests Employee GTest::gtest_main)
 
+
 # Объявляем консоль
-add_executable(Console_application "app/Console_application")
-target_link_libraries(Console_application Employee)
+add_executable(app "app/Console_application.cc")
+target_link_libraries(app Employee GTest::gtest_main)

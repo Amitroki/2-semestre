@@ -3,6 +3,7 @@
 #include <class/Workers.h>
 
 using namespace workers;
+using namespace std;
 
 TEST(EmployeeTests, calculating_salary_full_time) {
     EmployeePtr worker1 = Employee::create_full_time("Иван", "Иванов", "Иванович", 13, 12, 2003, 54000);
