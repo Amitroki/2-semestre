@@ -34,4 +34,4 @@ target_link_libraries(Employee_tests Employee GTest::gtest_main)
 
 # Объявляем консоль
 add_executable(app "app/Console_application.cc")
-target_link_libraries(app Employee GTest::gtest_main)
+target_link_libraries(app Employee)
