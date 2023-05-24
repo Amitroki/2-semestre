@@ -5,10 +5,9 @@ using namespace workers;
 using namespace std;
 
 Employees::Employees(const Employees& other) {
-	const auto n = other.size();
-	_worker.reserve(n);
-	for (int i = 0; i < n; ++i) {
-		_worker.push_back(other[i]->clone());
+	_worker.reserve(other.size());
+	for (const auto& ptr: other._worker) {
+		_worker.push_back(ptr->clone());
 	}
 }
 
@@ -17,8 +16,7 @@ int Employees::size() const {
 }
 
 EmployeePtr Employees :: operator[](const int index) const {
-	if (index < 0)
-	{
+	if (index < 0) {
 		throw out_of_range("[EmployeeList::operator[]] Index is out of range.");
 	}
 	return _worker.at(index);
